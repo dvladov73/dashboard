@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dashboard';
+  navbarOpen = false;
+
+toggleNavbar() {
+  this.navbarOpen = !this.navbarOpen;
+}
 }
