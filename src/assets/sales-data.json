@@ -1,0 +1,37 @@
+[
+    {
+      "id":1,
+      "product": "Product1",
+      "year":2019,
+      "month":"January",
+      "sales":100000
+    },
+    {
+      "id":2,
+      "product": "Product1",
+      "year":2019,
+      "month":"February",
+      "sales":150000
+     },
+    {
+      "id":3,
+      "product": "Product1",
+      "year":2019,
+      "month":"March",
+      "sales":120000
+     },
+      {
+      "id":4,
+      "product": "Product1",
+      "year":2019,
+      "month":"April",
+      "sales":150000
+     },
+     {
+      "id":5,
+      "product": "Product1",
+      "year":2019,
+      "month":"May",
+      "sales":142000
+     }  
+]
