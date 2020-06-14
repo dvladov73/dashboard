@@ -1,20 +1,19 @@
+
 <div class="container">
     <div class="row">
-        <div class="col-sm-8">
-          <table class="table  table-hover">
-            <tr *ngFor="let sales of salesData">
-              <td> {{sales.year}}  </td>
-              <td> {{sales.month}} </td>
-              <td> {{sales.product}} </td> 
-              <td> {{sales.sales}} </td> 
-            </tr>
-            </table>
+        <div class="col-sm-6">
+        <app-pie-chart *ngIf="salesData" [data]="salesData"></app-pie-chart>
         </div>
-        <div class="col-sm-4">col-sm-4</div>
+        <div class="col-sm-6">
+            <app-sales-chart *ngIf="salesData" [data]="salesData"></app-sales-chart>
+        </div>
       </div>
       <div class="row">
-        <div class="col-sm">col-sm</div>
-        <div class="col-sm">col-sm</div>
-        <div class="col-sm">col-sm</div>
+        <div class="col-sm-2"> col-sm </div>
+        <div class="col-sm">
+         <!-- <app-chart-data></app-chart-data> -->
+         <app-area-chart *ngIf="salesData" [data1]="salesData"></app-area-chart>
+        </div>
+        <div class="col-sm-2">col-sm</div>
       </div>
   </div>

@@ -2,36 +2,85 @@
     {
       "id":1,
       "product": "Product1",
-      "year":2019,
-      "month":"January",
-      "sales":100000
+      "date" :"2019-01-01",
+      "sales":100000,
+      "expense":32000
     },
     {
       "id":2,
       "product": "Product1",
-      "year":2019,
-      "month":"February",
-      "sales":150000
+      "date" :"2019-02-01",
+      "sales":150000,
+      "expense":36000
      },
     {
       "id":3,
       "product": "Product1",
-      "year":2019,
-      "month":"March",
-      "sales":120000
+      "date" :"2019-03-01",
+      "sales":120000,
+      "expense":50000
      },
       {
       "id":4,
       "product": "Product1",
-      "year":2019,
-      "month":"April",
-      "sales":150000
+      "date" :"2019-04-01",
+      "sales":150000,
+      "expense":52000
      },
      {
       "id":5,
       "product": "Product1",
-      "year":2019,
-      "month":"May",
-      "sales":142000
-     }  
+      "date" :"2019-05-01",
+      "sales":142000,
+      "expense":76000
+     } ,
+     {
+      "id":6,
+      "product": "Product1",
+      "date" :"2019-06-01",
+      "sales":125000,
+      "expense":89000
+     },
+     {
+      "id":7,
+      "product": "Product1",
+      "date" :"2019-07-01",
+      "sales":178000,
+      "expense":102000
+     },
+      {
+      "id":8,
+      "product": "Product1",
+      "date" :"2019-08-01",
+      "sales":142000,
+      "expense":76000
+     },
+     {
+      "id":9,
+      "product": "Product1",
+      "date" :"2019-09-01",
+      "sales":150000,
+      "expense":52000
+     },
+     {
+      "id":10,
+      "product": "Product1",
+      "date" :"2019-10-01",
+      "sales":142000,
+      "expense":76000
+     },
+     {
+      "id":11,
+      "product": "Product1",
+      "date" :"2019-11-01",
+      "sales":150000,
+      "expense":36000
+     },
+    {
+      "id":312,
+      "product": "Product1",
+      "date" :"2019-12-01",
+      "sales":120000,
+      "expense":50000
+     }      
 ]

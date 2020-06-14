@@ -1,8 +1,8 @@
 export interface SalesInterface {
     id: number;
     product: string;
-    year:number;
-    month:number;
+    date: Date;
     sales:number;
+    expense:number;
 
 }
