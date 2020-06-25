@@ -1,0 +1,25 @@
+
+  .bg-color {
+    background-color:#7ecfd4
+  }
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  
+    > .col,
+    > [class*="col-"] {
+      padding-right: 20px;
+      padding-left: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+     
+    }
+}
+.dt{
+  font-family: 'Lato', sans-serif;
+  color:#ffffff;
+  text-shadow: none;
+  font-size: 25px;
+}

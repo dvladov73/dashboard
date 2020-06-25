@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
-import {  throwError, Observable } from 'rxjs';
+import {  throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { SalesInterface } from '../shared/sales-interface';
-
+import { SalesPerformance } from '../shared/sales-interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SalesDataService {
-  private REST_API_SERVER = './assets/sales-data.json';
+export class PerformanceDataService {
+  private REST_API_SERVER = './assets/performance-data.json';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -28,8 +27,7 @@ export class SalesDataService {
     return throwError(errorMessage);
   }
 
-  public sendGetRequest(): Observable <SalesInterface[]>{
-    return this.httpClient.get <SalesInterface[]>(this.REST_API_SERVER)
-           .pipe(catchError(this.handleError));
+  public sendGetRequest(){
+    return this.httpClient.get(this.REST_API_SERVER).pipe(retry(3), catchError(this.handleError));
   }
 }

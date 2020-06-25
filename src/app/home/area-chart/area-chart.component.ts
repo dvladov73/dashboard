@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, ElementRef, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import * as d3Shape from 'd3-shape';
 import * as d3Array from 'd3-array';
@@ -14,24 +14,12 @@ import { SalesInterface } from '../../shared/sales-interface';
     templateUrl: './area-chart.component.html',
     styleUrls: ['./area-chart.component.scss']
 })
-export class AreaChartComponent  implements OnInit {
-    @Input()  data1:SalesInterface[];
+export class AreaChartComponent  implements OnInit, OnChanges {
+    @Input()  data:SalesInterface[];
    //Initial dimentions
    hostElement='#area'; // Native element hosting the SVG container
   
-   data: any[] = [
-   {date:new Date ('01-01-2019'), sales: 80, expense:50},
-   {date:new Date ('02-02-2019'), sales: 100, expense:60},
-   {date:new Date ('03-03-2019'), sales: 120, expense:90},
-   {date:new Date ('04-04-2019'), sales: 140, expense:80},
-   {date:new Date ('05-05-2019'), sales: 100, expense:250},
-   {date:new Date ('06-06-2019'), sales: 120, expense:50},
-   {date:new Date ('07-07-2019'), sales: 60, expense:70},
-   {date:new Date ('08-08-2019'), sales: 200, expense:150},
-   {date:new Date ('09-09-2019'), sales: 80, expense:50},
-   ];
-
-   private margin = {top: 20, right: 20, bottom: 30, left: 50};
+   private margin = { top: 10, right: 10, bottom:30, left: 60 };
    private width: number;
    private height: number;
    private x: any;
@@ -44,45 +32,53 @@ export class AreaChartComponent  implements OnInit {
    // Scales and Axis
    private xAxis: any;  private xScale: any;  private yAxis: any;  private yScale: any;
    private maxY: number; private maxY1: number; private maxY2: number;
-   
- constructor() {
-     // configure margins and width/height of the graph
-
-  this.width = 600 - this.margin.left - this.margin.right;
-  this.height = 300 - this.margin.top - this.margin.bottom;
+   // Show/Hide switch
+  isAreaVisible = false;
+  changeAreaVisibility() {
+     this.isAreaVisible = !this.isAreaVisible;
+ }
+ 
+ constructor() { }
+ ngOnInit():void {}
+ ngOnChanges():void {
+   // configure margins and width/height of the graph
   this.maxY1=this.data.reduce(function(max, x) { return (x.sales > max) ? x.sales : max; }, 0);
   this.maxY2=this.data.reduce(function(max, x) { return (x.expense > max) ? x.expense : max; }, 0);
   this.maxY=0;
   if (this.maxY1<this.maxY2) {this.maxY=this.maxY2;} else {this.maxY=this.maxY1;}
-  this.color1='orange';
-  this.color2='blue';
- }
- ngOnInit() {
-  this.buildSvg();
+  this.color1='#ffffff';
+  this.color2='#8ef5f5'; 
+  this.svg = d3.select(this.hostElement).append('svg');
+  this.width =500 - this.margin.left - this.margin.right;
+// this.width=parseInt(d3.select(this.hostElement).style('width'), 10)- this.margin.left - this.margin.right;
+  this.height = 250 - this.margin.top - this.margin.bottom;
+// this.height=parseInt(d3.select(this.hostElement).style('height'), 10)- this.margin.top - this.margin.bottom;
+
+  this.setSvgDimentions();
+  this.mainContainer = this.svg.append('g')
+  .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
+  this.gy = this.mainContainer.append('g').attr('class', 'axis axis--y');
+  this.gx = this.mainContainer.append('g').attr('class', 'axis axis--x');
   this.setAxisScales();
   this.drawAxis();
   this.drawLineAndPath();
    //Listening to the window size
   window.addEventListener('resize', this.resize.bind(this));
-  }
+ }
 
-  private buildSvg() {
-  this.svg = d3.select(this.hostElement).append('svg');
-  this.svg.style('width', this.width+this.margin.left+this.margin.right)
-          .style('height', this.height+this.margin.top+this.margin.bottom);
-  this.mainContainer = this.svg.append('g')
-         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
-  this.gy = this.mainContainer.append('g').attr('class', 'axis axis--y');
-  this.gx = this.mainContainer.append('g').attr('class', 'axis axis--x');
+  private setSvgDimentions() {
+   
+   this.svg.style('width', this.width+this.margin.left+this.margin.right)
+            .style('height', this.height+this.margin.top+this.margin.bottom);
+  
   }
   
 private drawLineAndPath() {
-   // var parseDate = d3.timeParse("%Y-%m-%d");
-var formatTime = d3.timeFormat("%e %B"); 
-this.area = this.mainContainer.selectAll("area")
-                              .remove().exit()
+  this.area = this.mainContainer.selectAll('path').remove().exit() 
+//this.area = this.mainContainer.selectAll('path')
+.data(this.data).enter().append('path')
 this.area = d3Shape.area()
-    .x( (d: any) => this.x(d.date) )
+    .x( (d: any) => this.x(d.month) )
     .y0(this.y(0))
     .y1( (d: any) => this.y(d.expense) );
 // Configuring line path sales
@@ -91,10 +87,10 @@ this.mainContainer.append('path')
     .attr('class', 'area')
     .attr('d', this.area)
     .attr('fill',this.color1)
-    .style('stroke', 'black')
-    .style('stroke-width', '2px');
+   // .style('stroke', 'black')
+  //  .style('stroke-width', '2px');
 this.area = d3Shape.area()
-    .x( (d: any) => this.x(d.date) )
+    .x( (d: any) => this.x(d.month) )
     .y0(this.y(0))
     .y1( (d: any) => this.y(d.sales) );
 // Configuring line path expenses
@@ -104,8 +100,8 @@ this.mainContainer.append('path')
     .attr('d', this.area)
     .attr('opacity',0.5)
     .attr('fill',this.color2)
-    .style('stroke','green')
-    .style('stroke-width', '2px');   
+   // .style('stroke','green')
+   // .style('stroke-width', '2px');   
  
 
 // draw legend and text
@@ -113,7 +109,7 @@ this.mainContainer.append("rect")
   .attr("x",this.width - 18)
   .attr("width", 18)
   .attr("height", 18)
-  .style("fill", this.color1);
+  .style("fill", this.color2);
  
  this.mainContainer .append("text")
   .style("font", "10px")
@@ -121,7 +117,7 @@ this.mainContainer.append("rect")
   .attr("y", 9)
   .attr("dy", ".35em")
   .style("text-anchor", "end")
-  .style('fill', 'black')
+ // .style('fill', 'black')
   .text("Sales"); 
   
   this.mainContainer.append("rect")
@@ -129,7 +125,7 @@ this.mainContainer.append("rect")
   .attr('y',36)
   .attr("width", 18)
   .attr("height", 18)
-  .style("fill", this.color2); 
+  .style("fill", this.color1); 
   this.mainContainer .append("text")
   .style("font", "10px")
   .attr("x", this.width - 28)
@@ -144,16 +140,21 @@ this.mainContainer.append("rect")
    
   this.gy.attr('transform', `translate(0, 0)`).call(this.yAxis);
   this.gx.append('g')
-            .attr('transform', 'translate(0,' + (this.height -this.margin.bottom-this.margin.top)+ ')')
-            .call(d3Axis.axisBottom(this.x).tickFormat(d3.timeFormat("%B")));
+            .attr('transform', 'translate(0,' + (this.height-this.margin.top-this.margin.bottom)+ ')')
+            .call(d3Axis.axisBottom(this.x));
+  this.gx.selectAll("text") 
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)");
   }
  
  
  
    private setAxisScales() {
    
-    this.x = d3Scale.scaleBand().rangeRound([0, this.width-this.margin.left-this.margin.right])
-                                .domain(this.data.map((d) => d.date));  
+    this.x = d3Scale.scaleBand().rangeRound([0, this.width-this.margin.right-this.margin.left])
+                                .domain(this.data.map((d) => d.month));  
                             
                                   
     this.y = d3Scale.scaleLinear().range([this.height-this.margin.top-this.margin.bottom, 0])
@@ -163,7 +164,7 @@ this.mainContainer.append("rect")
    }
   //resizing as the window changes
   private resize() {
-    this.buildSvg();
+    this.setSvgDimentions();
     this.setAxisScales();
     this.drawAxis();
     this.drawLineAndPath();

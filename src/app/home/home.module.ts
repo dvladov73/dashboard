@@ -4,18 +4,18 @@ import { SalesChartComponent } from './sales-chart/sales-chart.component';
 import { HomeComponent } from './home.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { AreaChartComponent } from './area-chart/area-chart.component';
-import { ChartDataComponent } from './chart-data/chart-data.component';
+import { PerformanceComponent } from '../performance/performance.component';
 
 
 @NgModule({
-  declarations: [SalesChartComponent, PieChartComponent, AreaChartComponent, ChartDataComponent],
+  declarations: [SalesChartComponent, PieChartComponent, AreaChartComponent],
   imports: [
     CommonModule,
     HomeComponent,
     SalesChartComponent,
     PieChartComponent,
     AreaChartComponent,
-    ChartDataComponent
+    PerformanceComponent
   ]
 })
 export class HomeModule { }

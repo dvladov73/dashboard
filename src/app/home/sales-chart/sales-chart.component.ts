@@ -1,6 +1,9 @@
-import { Component, OnInit, Input, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, ElementRef, OnChanges, } from '@angular/core';
 import * as d3 from 'd3';
+
 import { SalesInterface } from '../../shared/sales-interface';
+
+
 
 
 @Component({
@@ -9,15 +12,18 @@ import { SalesInterface } from '../../shared/sales-interface';
   styleUrls: ['./sales-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SalesChartComponent implements OnInit {
-  @Input()  data:SalesInterface[];
+export class SalesChartComponent implements OnInit, OnChanges {
+  @Input() data:SalesInterface[];
+  
  //Initial dimentions
- hostElement; // Native element hosting the SVG container
- private height=300;
- private width=600;
- private margin = { top: 20, right: 20, bottom: 30, left: 60 };
- private barWidth=this.width-this.margin.left-this.margin.right;
- private barHeight=this.height-40;
+ hostElement='#chart'; // Native element hosting the SVG container
+ 
+ private height:number;
+ private width:number;
+ private barWidth:number;
+ private barHeight:number;
+ private margin = { top: 5, right: 40, bottom: 55, left: 60 };
+
  // group containers (X axis, Y axis and bars)
  private gx: any; private gy: any; private bars: any; private bars1:any;
  // Scales and Axis
@@ -25,7 +31,7 @@ export class SalesChartComponent implements OnInit {
  // Drawing containers
  private svg: any;  private mainContainer: any;
  private color: any; private color1:any;
- private maxY: number; private maxY1: number; private maxY2: number;
+ maxY: number; private maxY1: number; private maxY2: number;
 
  // Show/Hide switch
  isVisible = false;
@@ -33,43 +39,48 @@ export class SalesChartComponent implements OnInit {
         this.isVisible = !this.isVisible;
     }
     
-  //constructor() {} 
-  constructor(private elRef: ElementRef) {
-    // this.hostElement = this.elRef.nativeElement;
-    this.hostElement='#chart';
-  }
-  ngOnInit(): void {
-   
-   this.maxY1=this.data.reduce(function(max, x) { return (x.sales > max) ? x.sales : max; }, 0);
-   this.maxY2=this.data.reduce(function(max, x) { return (x.expense > max) ? x.expense : max; }, 0);
-   this.maxY=this.maxY2;
-   if (this.maxY1>this.maxY2) {this.maxY=this.maxY1}
+  constructor() {} 
+  
+  ngOnInit(): void {}
+  ngOnChanges(): void {
+    this.maxY=10;
+    this.maxY1=this.data.reduce(function(max, x) { return (x.sales > max) ? x.sales : max; }, 0);
+    this.maxY2=this.data.reduce(function(max, x) { return (x.expense > max) ? x.expense : max; }, 0);
+    this.maxY=this.maxY2;
+    if (this.maxY1>this.maxY2) {this.maxY=this.maxY1}
     this.svg = d3.select(this.hostElement).append('svg');
-    this.xScale = d3.scaleBand().range ([0, this.width]).padding(0.1);
-                                 
+    this.width=parseInt(d3.select(this.hostElement).style('width'), 10);
+    this.height=parseInt(d3.select(this.hostElement).style('height'), 10);
+    this.barWidth=this.width-this.margin.left-this.margin.right;
+    this.barHeight=this.height-this.margin.bottom-this.margin.top;
+    this.xScale = d3.scaleBand().range ([0, this.width]).padding(0.1);                   
     this.yScale = d3.scaleLinear()
     .domain([0,this.maxY])
-    .range ([0, this.height-this.margin.top]);
+    .range ([0, this.height-this.margin.top-this.margin.bottom]);
     this.setSVGDimensions();
-    this.color =d3.scaleLinear().domain([0,this.data.length]).range(<any[]>['#00b300', '#4dff4d']); //colours range
-    this.color1 =d3.scaleLinear().domain([0,this.data.length]).range(<any[]>['#0000A0', '#ADD8E6']); //colours range
-    //this.color = d3.scaleOrdinal(d3.schemeCategory10);
+       
+    this.color =d3.scaleLinear().domain([0,this.data.length]).range(<any[]>['#008080', '#008080']); //colours range
+    this.color1 =d3.scaleLinear().domain([0,this.data.length]).range(<any[]>['#8ef5f5', '#8ef5f5']); //colours range
     this.mainContainer = this.svg.append('g').attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
     this.gy = this.mainContainer.append('g').attr('class', 'axis axis--y');
     this.gx = this.mainContainer.append('g').attr('class', 'axis axis--x');  
-    this.draw(); 
    
+  
+    this.draw();
     //Listening to the window size
    window.addEventListener('resize', this.resize.bind(this));
+   
   }
+
+
   private drawBars() {
-  
+    
     this.bars = this.mainContainer.selectAll("bar")
     .remove().exit()
     .data(this.data).enter().append('rect')
         
    this.bars
-      .attr('x',d => this.xScale(d.date)+this.xScale.bandwidth()/2)
+      .attr('x',d => this.xScale(d.month)+this.xScale.bandwidth()/2)
       .attr('y', d => this.yScale(d.sales))
       .attr('width', this.xScale.bandwidth()/2)
       .attr('height', d => -this.yScale(d.sales) + this.yScale(0))// Keep this
@@ -86,7 +97,7 @@ export class SalesChartComponent implements OnInit {
       .data(this.data).enter().append('rect')  
 
       this.bars1
-      .attr('x',d => this.xScale(d.date))
+      .attr('x',d => this.xScale(d.month))
       .attr('y', d => this.yScale(d.expense))
       .attr('width', this.xScale.bandwidth()/2)
       .attr('height', d => -this.yScale(d.expense) + this.yScale(0))// Keep this
@@ -99,7 +110,7 @@ export class SalesChartComponent implements OnInit {
         d3.select(this).attr('opacity', 1)
        });
 
-    // draw legend nad text
+    // draw legend and text
       this.mainContainer.append("rect")
       .attr("x",this.barWidth - 18)
       .attr("width", 18)
@@ -110,7 +121,7 @@ export class SalesChartComponent implements OnInit {
       .style("font", "10px")
       .attr("x", this.barWidth - 28)
       .attr("y", 9)
-      .attr("dy", ".35em")
+      .attr("dy", ".20em")
       .style("text-anchor", "end")
       .style('fill', 'black')
       .text("Sales"); 
@@ -125,7 +136,7 @@ export class SalesChartComponent implements OnInit {
       .style("font", "10px")
       .attr("x", this.barWidth - 28)
       .attr("y", 45)
-      .attr("dy", ".35em")
+      .attr("dy", ".20em")
       .style("text-anchor", "end")
       .style('fill', 'black')
       .text("Expense");   
@@ -133,20 +144,24 @@ export class SalesChartComponent implements OnInit {
 
   private drawAxis() {
    this.gy.attr('transform', `translate(0, 0)`).call(this.yAxis);
-   this.gx.attr('transform', `translate(0, ${this.yScale(0)})`).call(this.xAxis);
+   this.gx.attr('transform', `translate(0, ${this.yScale(0)})`).call(this.xAxis)
+                                                               .selectAll("text") 
+                                                               .style("text-anchor", "end")
+                                                               .attr("dx", "-.8em")
+                                                               .attr("dy", ".15em")
+                                                               .attr("transform", "rotate(-65)");
    }
 
   private setSVGDimensions() {
     this.svg.style('width', this.width).style('height', this.height);
-   
-  }
+   }
 
   private setAxisScales() {
     this.xScale = d3.scaleBand();
     this.yScale = d3.scaleLinear();
     this.xScale
       .rangeRound([0, this.barWidth]).padding(.1)
-      .domain(this.data.map(d => d.date));
+      .domain(this.data.map(d => d.month));
     this.yScale
       .range([this.barHeight, 0])
       .domain([0, this.maxY]);
@@ -172,6 +187,7 @@ export class SalesChartComponent implements OnInit {
     this.drawAxis();
     this.drawBars();
   }
+ 
 }
 
 

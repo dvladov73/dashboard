@@ -1,19 +1,50 @@
+<div class="container-fluid full-width">
+ <h1>Main Dashboard</h1>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-        <app-pie-chart *ngIf="salesData" [data]="salesData"></app-pie-chart>
-        </div>
-        <div class="col-sm-6">
-            <app-sales-chart *ngIf="salesData" [data]="salesData"></app-sales-chart>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-2"> col-sm </div>
-        <div class="col-sm">
-         <!-- <app-chart-data></app-chart-data> -->
-         <app-area-chart *ngIf="salesData" [data1]="salesData"></app-area-chart>
-        </div>
-        <div class="col-sm-2">col-sm</div>
-      </div>
+  <div class="row no-gutters bg-color h-25" >
+    <div class="d-flex flex-column col-md-3">
+       <table class="itable">
+        <tr> 
+           <td rowspan="2"><i class="fa fa-user-plus fa-3x"></i></td>
+           <td class="dt"> 1234 YTD</td>
+        </tr>
+         <tr> <td class="ht">New Customers</td> </tr>
+        <tr>
+         <td rowspan="2"> <i class="fa fa-bar-chart fa-3x"></i></td>
+         <td class="dt"> 1234 YTD</td> 
+        </tr>
+         <tr> <td class="ht">Sales</td> </tr>
+        <tr>
+         <td rowspan="2"> <i class="fa fa-money fa-3x"></i> </td>
+         <td class="dt"> 1234 YTD</td> 
+        </tr>
+         <tr> <td class="ht">Profit</td> </tr>
+       </table>
+    </div>
+    <div class="d-flex flex-column col-md-6" id="area">
+      <h1 style="text-align: center; color:#ffffff; text-transform: capitalize;">$1234</h1>
+
+      <app-area-chart [data]="salesData"></app-area-chart>
+    </div>
+    <div class="d-flex flex-column col-md-3"  id="pie">
+      <div class="c_udesc"> Sales by month </div>
+      <app-pie-chart [data]="salesData" [in_r]='0.5'></app-pie-chart>
+   </div>
   </div>
+  <div class="row no-gutters-p bg-color-w h-25">
+    <div class="d-flex flex-column col-md-3">
+      <div class="c_desc"> average revenue per unit </div>
+      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">$1234</span> </h1> 
+      <div class="c_desc"> average revenue per unit </div>
+      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">$1234</span> </h1> 
+      <div class="c_desc"> average revenue per unit </div>
+      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">$1234</span> </h1> 
+    </div>  
+    <div class="d-flex flex-column col-md-3">
+       Pie chart
+    </div>  
+    <div class="d-flex flex-column col-md-6" id="chart">    
+      <app-sales-chart [data]="salesData"></app-sales-chart>
+    </div>
+  </div>
+

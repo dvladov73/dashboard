@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, OnChanges } from '@angular/core';
 
 import { SalesInterface } from  '../../shared/sales-interface';
 import * as d3 from 'd3';
@@ -9,12 +9,14 @@ import * as d3 from 'd3';
   styleUrls: ['./pie-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PieChartComponent implements OnInit {
+export class PieChartComponent implements OnInit, OnChanges {
   @Input()  data:SalesInterface[];
- 
-   private width=500;
-   private height=300;
+  @Input() in_r:number;
+  hostElement='#pie';
+  private width:number;
+  private height:number;
   radius: number;
+  private margin = { top:0, right: 10, bottom: 45, left:10 };
   // Arcs & pie
   private arc: any;  private pie: any;  private slices: any;
   private color: any;
@@ -29,19 +31,25 @@ export class PieChartComponent implements OnInit {
 
   constructor() {}
    //View switch
-   isVisible = true;
-    changeVisibility() {
-        this.isVisible = !this.isVisible;
+   isPieVisible = true;
+    changePieVisibility() {
+        this.isPieVisible = !this.isPieVisible;
     }
 
  
-  ngOnInit(): void {
-    this.radius = (Math.min(this.width, this.height)) / 2;
-    this.svg = d3.select('#pie').append('svg');
+  ngOnInit(): void { }
+  ngOnChanges():void {
+ 
+    this.svg = d3.select(this.hostElement).append('svg');
+   // this.width=parseInt(d3.select(this.hostElement).style('width'), 10);
+   // this.height=parseInt(d3.select(this.hostElement).style('height'), 10);
+    this.width=250;
+    this.height=200;
+    this.radius = (Math.min((this.width-this.margin.left-this.margin.right), (this.height-this.margin.top-this.margin.bottom)))/2;
     this.setSVGDimensions();
-    this.color =d3.scaleLinear().domain([0,this.data.length]).range(<any[]>['#00b300', '#4dff4d']); //colours range
+    this.color =d3.scaleLinear().domain([0,this.data.length]).range(<any[]>['#0000ff', '#8ef5f5']); //colours range
     //this.color = d3.scaleOrdinal(d3.schemeCategory10);
-    this.mainContainer = this.svg.append('g').attr('transform', `translate(${this.radius},${this.radius})`);
+    this.mainContainer = this.svg.append('g').attr('transform', `translate(${(this.width)/2},${(this.height)/2})`);
     this.pie = d3.pie().sort(null).value((d: any) => d.sales);
     this.draw();
 
@@ -59,11 +67,11 @@ export class PieChartComponent implements OnInit {
     this.setArcs();
     this.drawSlices();
     //labels
-    this.drawLabels();
+   // this.drawLabels();
   }
 
   private setArcs() {
-    const thickness=0.6; // for inner radius
+    const thickness=this.in_r; // for inner radius
     this.arc = d3.arc().outerRadius(this.radius).innerRadius(this.radius * thickness); 
     //labels
     this.arcLabel = d3.arc().innerRadius(this.radius * thickness).outerRadius(this.radius * .8);
@@ -90,7 +98,7 @@ export class PieChartComponent implements OnInit {
    
      this.tooltip .style('top', (d3.event.layerY + 15) + 'px').style('left', (d3.event.layerX) + 'px')
        .style('display', 'block').style('opacity', 1).style('height', '40px')
-       this.tooltip.html(`name: ${s.data.month}<br>value: ${s.data.sales};<br>share: ${percent}`);
+       this.tooltip.html(`${s.data.month}<br> sales $: ${s.data.sales}`);
      }.bind(this))
    .on('mouseout', function () {
      this.tooltip.style('display', 'none').style('opacity', 0);
@@ -118,11 +126,11 @@ export class PieChartComponent implements OnInit {
     this.setSVGDimensions();
     this.setArcs();
     this.repaint();
-    this.drawLabels();
+  //  this.drawLabels();
   }
 
   private repaint() {
     this.drawSlices();
-    this.drawLabels();
+   // this.drawLabels();
   }
 }
