@@ -6,42 +6,47 @@
        <table class="itable">
         <tr> 
            <td rowspan="2"><i class="fa fa-user-plus fa-3x"></i></td>
-           <td class="dt"> 1234 YTD</td>
+           <td class="dt"> 120 000 YTD</td>
         </tr>
          <tr> <td class="ht">New Customers</td> </tr>
         <tr>
          <td rowspan="2"> <i class="fa fa-bar-chart fa-3x"></i></td>
-         <td class="dt"> 1234 YTD</td> 
+         <td class="dt"> {{salesYTD|currency}}</td> 
         </tr>
-         <tr> <td class="ht">Sales</td> </tr>
+         <tr> <td class="ht">Sales YTD</td> </tr>
         <tr>
          <td rowspan="2"> <i class="fa fa-money fa-3x"></i> </td>
-         <td class="dt"> 1234 YTD</td> 
+         <td class="dt"> {{profitYTD|currency}}</td> 
         </tr>
-         <tr> <td class="ht">Profit</td> </tr>
+         <tr> <td class="ht">Profit YTD</td> </tr>
        </table>
     </div>
     <div class="d-flex flex-column col-md-6" id="area">
-      <h1 style="text-align: center; color:#ffffff; text-transform: capitalize;">$1234</h1>
+      <h1 style="text-align: center; color:#ffffff; text-transform: capitalize;">Total sales YTD {{salesYTD|currency}}</h1>
 
       <app-area-chart [data]="salesData"></app-area-chart>
     </div>
-    <div class="d-flex flex-column col-md-3"  id="pie">
-      <div class="c_udesc"> Sales by month </div>
-      <app-pie-chart [data]="salesData" [in_r]='0.5'></app-pie-chart>
+    <div class="d-flex flex-column col-md-3">
+      <div class="c_udesc"> <h2> Sales by month </h2> </div>
+       <app-pie-chart [data]="salesData" [in_r]='0.5'></app-pie-chart>
    </div>
   </div>
   <div class="row no-gutters-p bg-color-w h-25">
     <div class="d-flex flex-column col-md-3">
-      <div class="c_desc"> average revenue per unit </div>
-      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">$1234</span> </h1> 
-      <div class="c_desc"> average revenue per unit </div>
-      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">$1234</span> </h1> 
-      <div class="c_desc"> average revenue per unit </div>
-      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">$1234</span> </h1> 
+      <div class="c_desc"> average sales per month </div>
+      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">{{averageSales|currency}}</span> </h1> 
+      <div class="c_desc"> average profit per month </div>
+      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">{{averageRevenue|currency}}</span> </h1> 
+      <div class="c_desc"> average profit per unit </div>
+      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">{{averageProfitUnit|currency}}</span> </h1> 
     </div>  
     <div class="d-flex flex-column col-md-3">
-       Pie chart
+      <div class="c_desc"> average customer acquisition cost </div>
+      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">{{av_cust_acc|currency}}</span> </h1> 
+      <div class="c_desc"> average customer lifetime value </div>
+      <h1 style="text-align:center"><span class="badge badge-pill badge-primary">{{av_cust_ltv|currency}}</span> </h1> 
+
+       
     </div>  
     <div class="d-flex flex-column col-md-6" id="chart">    
       <app-sales-chart [data]="salesData"></app-sales-chart>

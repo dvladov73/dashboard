@@ -42,8 +42,8 @@ export class AreaChartComponent  implements OnInit, OnChanges {
  ngOnInit():void {}
  ngOnChanges():void {
    // configure margins and width/height of the graph
-  this.maxY1=this.data.reduce(function(max, x) { return (x.sales > max) ? x.sales : max; }, 0);
-  this.maxY2=this.data.reduce(function(max, x) { return (x.expense > max) ? x.expense : max; }, 0);
+  this.maxY1=this.data.reduce(function(max, x) { return ((x.sales1+x.sales2+x.sales3) > max) ? (x.sales1+x.sales2+x.sales3): max; }, 0);
+  this.maxY2=this.data.reduce(function(max, x) { return ((x.expense1+x.expense2+x.expense3) > max) ? (x.expense1+x.expense2+x.expense3) : max; }, 0);
   this.maxY=0;
   if (this.maxY1<this.maxY2) {this.maxY=this.maxY2;} else {this.maxY=this.maxY1;}
   this.color1='#ffffff';
@@ -80,7 +80,7 @@ private drawLineAndPath() {
 this.area = d3Shape.area()
     .x( (d: any) => this.x(d.month) )
     .y0(this.y(0))
-    .y1( (d: any) => this.y(d.expense) );
+    .y1( (d: any) => this.y(d.expense1+d.expense2+d.expense3) );
 // Configuring line path sales
 this.mainContainer.append('path')
     .datum(this.data)
@@ -92,7 +92,7 @@ this.mainContainer.append('path')
 this.area = d3Shape.area()
     .x( (d: any) => this.x(d.month) )
     .y0(this.y(0))
-    .y1( (d: any) => this.y(d.sales) );
+    .y1( (d: any) => this.y(d.sales1+d.sales2+d.sales3) );
 // Configuring line path expenses
 this.mainContainer.append('path')
     .datum(this.data)

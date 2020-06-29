@@ -1,0 +1,38 @@
+  
+<div >
+   Chart view<mat-slide-toggle (click)="changeVisibility();" id="showSlider">Table view</mat-slide-toggle>
+</div>
+<div  id='chart' style="display:block"> </div>
+<div  id='salesTable'#salesTable style="display:none">
+   <button  class="btn btn-primary" (click)="saveAsCSV();" style="position: relative; margin-left: 10px;"><i class="fa fa-download"></i>.CSV</button>
+   <br/><br/> 
+   <table mat-table class="mat-elevation-z8">
+      <thead>
+      <tr>
+         <th rowspan="2">Month</th>
+         <th colspan="2">Retail sales</th>
+         <th colspan="2">Online sales</th>
+         <th colspan="2">Wholesale sales</th>
+      </tr>
+      <tr> 
+         <th>Sales</th>
+         <th>Expense</th>
+         <th>Sales</th>
+         <th>Expense</th>
+         <th>Sales</th>
+         <th>Expense</th>
+      </tr>
+      </thead>
+      <tr *ngFor="let dat of data">
+         <td>{{dat.month}}</td>
+         <td>{{dat.sales1|currency}}</td>
+         <td>{{dat.sales2|currency}}</td>
+         <td>{{dat.sales3|currency}}</td>
+         <td>{{dat.expense1|currency}}</td>
+         <td>{{dat.expense2|currency}}</td>
+         <td>{{dat.expense3|currency}}</td>
+      </tr>
+   </table>
+   
+</div>
+

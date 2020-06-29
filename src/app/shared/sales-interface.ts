@@ -5,7 +5,9 @@ export interface SalesInterface {
     sales2:number;
     expense2:number;
     sales3:number;
-    expense4:number;
+    expense3:number;
+    cust_acc:number;
+    cust_ltv:number;
 
 }
 export interface SalesPerformance{

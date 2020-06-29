@@ -1,21 +1,5 @@
-Chart View &nbsp;<mat-slide-toggle (click)="changeVisibility()" id="chartView">Table view</mat-slide-toggle>
-  <div [hidden]="isVisible" class="d3-chart"></div>
-    <div [hidden]="!isVisible">
-   <table class="table  table-hover">
-     <thead>
-       <th>Month</th>
-       <th>Sales</th>
-       <th>Expense</th>
-     
-     </thead>
-            <tr *ngFor="let cd of data">
-              <td> {{cd.month}}  </td>
-              <td> {{cd.sales|currency}} </td>
-              <td> {{cd.expense|currency}} </td>
-             
-             </tr>
-            </table>
-   </div >
+  <div class="d3-chart"></div>
+
   
 
 

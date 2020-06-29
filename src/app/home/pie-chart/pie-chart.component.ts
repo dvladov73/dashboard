@@ -12,6 +12,8 @@ import * as d3 from 'd3';
 export class PieChartComponent implements OnInit, OnChanges {
   @Input()  data:SalesInterface[];
   @Input() in_r:number;
+  private u_data:number[];
+  private u_count:number=3;
   hostElement='#pie';
   private width:number;
   private height:number;
@@ -41,16 +43,17 @@ export class PieChartComponent implements OnInit, OnChanges {
   ngOnChanges():void {
  
     this.svg = d3.select(this.hostElement).append('svg');
-   // this.width=parseInt(d3.select(this.hostElement).style('width'), 10);
+    //this.width=parseInt(d3.select(this.hostElement).style('width'), 10);
    // this.height=parseInt(d3.select(this.hostElement).style('height'), 10);
-    this.width=250;
-    this.height=200;
+    this.width=300;
+    this.height=300;
     this.radius = (Math.min((this.width-this.margin.left-this.margin.right), (this.height-this.margin.top-this.margin.bottom)))/2;
+   
     this.setSVGDimensions();
     this.color =d3.scaleLinear().domain([0,this.data.length]).range(<any[]>['#0000ff', '#8ef5f5']); //colours range
     //this.color = d3.scaleOrdinal(d3.schemeCategory10);
     this.mainContainer = this.svg.append('g').attr('transform', `translate(${(this.width)/2},${(this.height)/2})`);
-    this.pie = d3.pie().sort(null).value((d: any) => d.sales);
+    this.pie = d3.pie().sort(null).value((d: any) => (d.sales1+d.sales2+d.sales3));
     this.draw();
 
     //listening to the window size
@@ -92,13 +95,13 @@ export class PieChartComponent implements OnInit, OnChanges {
    .on('mousemove', function (s) {
     
     for(var i = 0; i < this.data.length; i++){
-      this.total += parseInt(this.data[i].sales);
+      this.total += parseInt(this.data[i].sales1);
     }
     const percent = (Math.abs(s.data.sales / this.total)*100).toFixed(2) + '%';
    
      this.tooltip .style('top', (d3.event.layerY + 15) + 'px').style('left', (d3.event.layerX) + 'px')
        .style('display', 'block').style('opacity', 1).style('height', '40px')
-       this.tooltip.html(`${s.data.month}<br> sales $: ${s.data.sales}`);
+       this.tooltip.html(`${s.data.month}<br> sales $: ${s.data.sales1+s.data.sales2+s.data.sales3}`);
      }.bind(this))
    .on('mouseout', function () {
      this.tooltip.style('display', 'none').style('opacity', 0);
@@ -118,7 +121,7 @@ export class PieChartComponent implements OnInit, OnChanges {
       .text(d => d.data.month);
     this.texts.append('tspan').filter(d => (d.endAngle - d.startAngle) > 0.25)
       .attr('x', 0).attr('y', '1.3em').attr('fill-opacity', 0.7)
-      .text(d => d.data.sales);
+      .text(d => d.data.sales1);
   }
   
   //resizing as the window changes
