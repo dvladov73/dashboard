@@ -2,10 +2,13 @@
 <div >
    Chart view<mat-slide-toggle (click)="changeVisibility();" id="showSlider">Table view</mat-slide-toggle>
 </div>
+<br/>
+<br/>
 <div  id='chart' style="display:block"> </div>
 <div  id='salesTable'#salesTable style="display:none">
    <button  class="btn btn-primary" (click)="saveAsCSV();" style="position: relative; margin-left: 10px;"><i class="fa fa-download"></i>.CSV</button>
-   <br/><br/> 
+   <br/>
+   <br/>
    <table mat-table class="mat-elevation-z8">
       <thead>
       <tr>
