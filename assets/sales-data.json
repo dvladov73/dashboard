@@ -1,0 +1,134 @@
+[
+    {
+      "month" :"January",
+      "sales1":100000,
+      "expense1":32000,
+      "sales2":110000,
+      "expense2":52000,
+      "sales3":90000,
+      "expense3":25000,
+      "cust_acc":250,
+      "cust_ltv":230
+    },
+    {
+      "month" :"February",
+      "sales1":150000,
+      "expense1":42000,
+      "sales2":80000,
+      "expense2":23000,
+      "sales3":121000,
+      "expense3":45000,
+      "cust_acc":220,
+      "cust_ltv":255
+     },
+    {
+      "month" :"March",
+      "sales1":120000,
+      "expense1":62000,
+      "sales2":130000,
+      "expense2":57000,
+      "sales3":95000,
+      "expense3":20000,
+      "cust_acc":236,
+      "cust_ltv":324
+     },
+     {
+      "month" :"April",
+      "sales1":80000,
+      "expense1":26000,
+      "sales2":120000,
+      "expense2":57000,
+      "sales3":95000,
+      "expense3":23000,
+      "cust_acc":120,
+      "cust_ltv":260
+    },
+    {
+      "month" :"May",
+      "sales1":120000,
+      "expense1":62000,
+      "sales2":130000,
+      "expense2":57000,
+      "sales3":95000,
+      "expense3":20000,
+      "cust_acc":252,
+      "cust_ltv":240
+     },
+    {
+      "month" :"June",
+      "sales1":100000,
+      "expense1":32000,
+      "sales2":110000,
+      "expense2":52000,
+      "sales3":90000,
+      "expense3":25000,
+      "cust_acc":180,
+      "cust_ltv":230
+     },
+     {
+      "month" :"July",
+      "sales1":100000,
+      "expense1":32000,
+      "sales2":110000,
+      "expense2":52000,
+      "sales3":90000,
+      "expense3":25000,
+      "cust_acc":211,
+      "cust_ltv":245
+    },
+    {
+      "month" :"August",
+      "sales1":150000,
+      "expense1":42000,
+      "sales2":80000,
+      "expense2":23000,
+      "sales3":121000,
+      "expense3":45000,
+      "cust_acc":190,
+      "cust_ltv":222
+     },
+    {
+      "month" :"September",
+      "sales1":120000,
+      "expense1":62000,
+      "sales2":130000,
+      "expense2":57000,
+      "sales3":95000,
+      "expense3":20000,
+      "cust_acc":247,
+      "cust_ltv":260
+     },
+     {
+      "month" :"October",
+      "sales1":80000,
+      "expense1":26000,
+      "sales2":120000,
+      "expense2":57000,
+      "sales3":95000,
+      "expense3":23000,
+      "cust_acc":250,
+      "cust_ltv":280
+    },
+    {
+      "month" :"November",
+      "sales1":120000,
+      "expense1":62000,
+      "sales2":130000,
+      "expense2":57000,
+      "sales3":95000,
+      "expense3":20000,
+      "cust_acc":250,
+      "cust_ltv":230
+     },
+    {
+      "month" :"December",
+      "sales1":100000,
+      "expense1":32000,
+      "sales2":110000,
+      "expense2":52000,
+      "sales3":90000,
+      "expense3":25000,
+      "cust_acc":211,
+      "cust_ltv":253
+     }
+]
