@@ -1,0 +1,22 @@
+[
+    {
+    "unit":"Online-shop",
+    "sales":"20",
+    "profit":"30"
+    }
+     {
+    "unit":"Retail",
+    "sales":"40",
+    "profit":"20"
+    }
+     {
+    "unit":"Wholesale",
+    "sales":"35",
+    "profit":"45"
+    }
+     {
+    "unit":"Pre-Orders",
+    "sales":"5",
+    "profit":"5"
+    }
+]

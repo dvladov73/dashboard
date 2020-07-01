@@ -31,9 +31,7 @@
               "src/styles.scss",
               "./node_modules/font-awesome/scss/font-awesome.scss"
             ],
-            "scripts": [
-        
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -124,8 +122,13 @@
               "devServerTarget": "dashboard:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "dashboard"
 }
